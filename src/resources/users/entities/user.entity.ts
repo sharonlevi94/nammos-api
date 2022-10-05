@@ -21,6 +21,9 @@ export class User {
   phone_number: string;
 
   @Prop()
+  password: string;
+
+  @Prop()
   last_logged: Date;
 
   @Prop()
