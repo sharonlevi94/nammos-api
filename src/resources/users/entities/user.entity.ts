@@ -24,6 +24,9 @@ export class User {
   password: string;
 
   @Prop()
+  admin: boolean;
+
+  @Prop()
   last_logged: Date;
 
   @Prop()
