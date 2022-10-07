@@ -38,7 +38,7 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     try {
-      return this.userModel.find();
+      return this.userModel.find().exec();
     } catch (e) {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
     }
