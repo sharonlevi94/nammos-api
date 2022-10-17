@@ -7,6 +7,7 @@ import { Model, ObjectId } from 'mongoose';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import * as bcrypt from 'bcrypt';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class UsersService {

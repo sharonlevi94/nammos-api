@@ -5,8 +5,7 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  _id: mongoose.Schema.Types.ObjectId;
+  _id: any;
 
   @Prop()
   active: boolean;
@@ -37,5 +36,6 @@ export class User {
 
   @Prop()
   deleted_at: Date;
+
 }
 export const UserSchema = SchemaFactory.createForClass(User);

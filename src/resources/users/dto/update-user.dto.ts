@@ -23,7 +23,4 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
   @IsBoolean()
   admin?: boolean;
-
-  @IsDate()
-  last_logged: Date;
 }

@@ -37,7 +37,7 @@ export class AuthService {
         jti: user._id,
       });
 
-      const updateUserRes = await this.usersService.update(user._id, {
+      const updateUserRes = await this.userModel.findByIdAndUpdate(user._id, {
         last_logged: new Date(),
       });
       if (!updateUserRes) {
