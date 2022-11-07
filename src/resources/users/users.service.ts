@@ -7,7 +7,6 @@ import { Model, ObjectId } from 'mongoose';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import * as bcrypt from 'bcrypt';
-import * as mongoose from 'mongoose';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +14,7 @@ export class UsersService {
 
   async create(body: CreateUserDto): Promise<User> {
     try {
+      console.log(body, 'body');
       const { full_name, phone_number, email, password } = body;
       const existUser: User | null = await this.userModel.findOne({
         email: email,
