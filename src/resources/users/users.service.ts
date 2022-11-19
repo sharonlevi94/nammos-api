@@ -14,7 +14,6 @@ export class UsersService {
 
   async create(body: CreateUserDto): Promise<User> {
     try {
-      console.log(body, 'body');
       const { full_name, phone_number, email, password } = body;
       const existUser: User | null = await this.userModel.findOne({
         email: email,
