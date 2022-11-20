@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from "@nestjs/common";
 import { CalendarService } from './calendar.service';
 import { CreateCalendarDto } from './dto/create-calendar.dto';
 import { UpdateCalendarDto } from './dto/update-calendar.dto';
+import { FindAvailableTimesDto } from "./dto/find-available-times.dto";
 
 @Controller('calendar')
 export class CalendarController {
@@ -15,6 +16,11 @@ export class CalendarController {
   @Get()
   findAll() {
     return this.calendarService.findAll();
+  }
+
+  @Get('/available-times')
+  findAvailableTimes(@Query() query: FindAvailableTimesDto) {
+    return this.calendarService.findAvailableTimes(query);
   }
 
   @Get(':id')
