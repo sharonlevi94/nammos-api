@@ -16,14 +16,23 @@ export class CalendarService {
   ) {}
   async create(createCalendarDto: CreateCalendarDto) {
     try {
-      const { user_id, date, time } = createCalendarDto;
+      const user: User | null = await this.userModel.findById(
+        createCalendarDto?.user_id,
+      );
+      if (!user) {
+        throw new HttpException('שם המשתמש אינו נמצא', HttpStatus.NOT_FOUND);
+      }
+      return this.calendarModel.create(createCalendarDto);
     } catch (e) {
       return new HttpException(e, HttpStatus.BAD_REQUEST);
     }
   }
 
-  findAll() {
-    return `This action returns all calendar`;
+  async findAll() {
+    try {
+    } catch (e) {
+      return new HttpException(e, HttpStatus.BAD_REQUEST);
+    }
   }
 
   findOne(id: number) {
@@ -50,9 +59,14 @@ export class CalendarService {
       }
       const availableTimes: any = { ...calendarTimes };
       busyTimes.forEach((busyTime) => {
-        const busyTimeArr = busyTime.split(':');
-        if (availableTimes[busyTimeArr[0]][busyTimeArr[1]]) {
-          delete availableTimes[busyTimeArr[0]][busyTimeArr[1]];
+        const busyTimeArr = busyTime?.time?.split(':');
+        const hour = parseInt(busyTimeArr[0], 10);
+        const minute = parseInt(busyTimeArr[1], 10);
+        const index = availableTimes[hour]?.findIndex(
+          (min: number) => min === minute,
+        );
+        if (index !== -1) {
+          availableTimes[hour].splice(index, 1);
         }
       });
       return availableTimes;
