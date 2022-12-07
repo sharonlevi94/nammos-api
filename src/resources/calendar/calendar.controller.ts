@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from "@nestj
 import { CalendarService } from './calendar.service';
 import { CreateCalendarDto } from './dto/create-calendar.dto';
 import { UpdateCalendarDto } from './dto/update-calendar.dto';
-import { FindAvailableTimesDto } from "./dto/find-available-times.dto";
+import { FindAvailableTimesDto } from './dto/find-available-times.dto';
 
 @Controller('calendar')
 export class CalendarController {

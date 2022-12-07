@@ -30,6 +30,17 @@ export class CalendarService {
 
   async findAll() {
     try {
+      const events: Calendar[] | null = await this.calendarModel
+        .find()
+        .populate('user_id', 'full_name')
+        .exec();
+
+      return events?.map((event) => {
+        return {
+          start: event.date + ' ' + event?.time,
+          name: event?.user_id?.full_name,
+        };
+      });
     } catch (e) {
       return new HttpException(e, HttpStatus.BAD_REQUEST);
     }

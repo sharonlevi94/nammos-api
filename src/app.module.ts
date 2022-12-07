@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './resources/auth/auth.module';
 import { UsersModule } from './resources/users/users.module';
 import { CalendarModule } from './resources/calendar/calendar.module';
+import { QueueModule } from './resources/queue/queue.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CalendarModule } from './resources/calendar/calendar.module';
     AuthModule,
     UsersModule,
     CalendarModule,
+    QueueModule,
   ],
   controllers: [AppController],
   providers: [AppService],
