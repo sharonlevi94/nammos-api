@@ -7,6 +7,7 @@ import { AuthModule } from './resources/auth/auth.module';
 import { UsersModule } from './resources/users/users.module';
 import { CalendarModule } from './resources/calendar/calendar.module';
 import { QueueModule } from './resources/queue/queue.module';
+import { BoatModelsModule } from './resources/boat-models/boat-models.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { QueueModule } from './resources/queue/queue.module';
     UsersModule,
     CalendarModule,
     QueueModule,
+    BoatModelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
