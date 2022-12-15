@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ObjectId } from 'mongoose';
+import { UpdateManyUserDto } from './dto/update-many-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -26,6 +27,11 @@ export class UsersController {
   @Patch(':id')
   update(@Param('id') id: ObjectId, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
+  }
+
+  @Patch()
+  updateMany(@Body() body: UpdateManyUserDto) {
+    return this.usersService.updateMany(body);
   }
 
   @Delete(':id')

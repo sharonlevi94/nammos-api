@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateManyUserDto } from './dto/update-many-user.dto';
 import { User, UserDocument } from './entities/user.entity';
 import { Model, ObjectId } from 'mongoose';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -42,7 +43,9 @@ export class UsersService {
       if (filter) {
         return this.userModel.find({ full_name: { $regex: filter } }).exec();
       }
-      return this.userModel.find().exec();
+      return this.userModel
+        .find({}, { full_name: true, active: true, admin: true })
+        .exec();
     } catch (e) {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
     }
@@ -66,6 +69,27 @@ export class UsersService {
         ...updateUserDto,
         updated_at: new Date(),
       });
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.BAD_REQUEST);
+    }
+  }
+  async updateMany(body: UpdateManyUserDto) {
+    const { users } = body;
+    try {
+      for (const user of users) {
+        console.log(
+          {
+            ...user,
+            updated_at: new Date(),
+          },
+          'user',
+        );
+        await this.userModel.updateOne(user?._id, {
+          ...user,
+          updated_at: new Date(),
+        });
+      }
+      return { success: true };
     } catch (e) {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
     }
