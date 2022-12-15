@@ -36,8 +36,12 @@ export class UsersService {
     }
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(query: any): Promise<User[]> {
     try {
+      const { filter } = query;
+      if (filter) {
+        return this.userModel.find({ full_name: { $regex: filter } }).exec();
+      }
       return this.userModel.find().exec();
     } catch (e) {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
