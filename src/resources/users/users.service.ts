@@ -77,17 +77,15 @@ export class UsersService {
     const { users } = body;
     try {
       for (const user of users) {
-        console.log(
+        await this.userModel.updateOne(
+          {
+            _id: user?._id,
+          },
           {
             ...user,
             updated_at: new Date(),
           },
-          'user',
         );
-        await this.userModel.updateOne(user?._id, {
-          ...user,
-          updated_at: new Date(),
-        });
       }
       return { success: true };
     } catch (e) {
