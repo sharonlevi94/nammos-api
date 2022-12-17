@@ -9,9 +9,7 @@ import { Calendar, CalendarSchema } from './entities/calendar.entity';
   controllers: [CalendarController],
   providers: [CalendarService],
   imports: [
-    MongooseModule.forFeature([
-      { name: Calendar.name, schema: CalendarSchema },
-    ]),
+    MongooseModule.forFeature([{ name: Calendar.name, schema: CalendarSchema },]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
 })
