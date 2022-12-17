@@ -12,5 +12,14 @@ export class BoatModel {
 
   @Prop()
   sub_models: string[];
+
+  @Prop()
+  created_at: Date;
+
+  @Prop()
+  updated_at: Date;
+
+  @Prop()
+  deleted_at: Date;
 }
 export const BoatModelSchema = SchemaFactory.createForClass(BoatModel);

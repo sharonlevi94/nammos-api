@@ -73,6 +73,7 @@ export class UsersService {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
     }
   }
+
   async updateMany(body: UpdateManyUserDto) {
     const { users } = body;
     try {

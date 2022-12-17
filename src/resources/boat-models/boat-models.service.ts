@@ -4,6 +4,7 @@ import { UpdateBoatModelDto } from './dto/update-boat-model.dto';
 import { Model, ObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { BoatModel, BoatModelDocument } from './entities/boat-model.entity';
+import { exec } from "child_process";
 
 @Injectable()
 export class BoatModelsService {
@@ -25,28 +26,80 @@ export class BoatModelsService {
           status: HttpStatus.BAD_REQUEST,
         };
       }
-      return this.boatModelModel.create({
+      await this.boatModelModel.create({
         name,
         sub_models,
       });
+      return { success: true };
     } catch (e) {
       new HttpException(e?.message, e?.status);
     }
   }
 
-  findAll() {
-    return `This action returns all models`;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  async findAll(): Promise<BoatModel[]> {
+    try {
+      return this.boatModelModel.find({ deleted_at: null }).exec();
+    } catch (e) {
+      console.log('findAll boat-models', e);
+      new HttpException(e?.message, e?.status);
+    }
+  }
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  async findOne(id: ObjectId): Promise<BoatModel> {
+    try {
+      const boatModel: BoatModel | null = await this.boatModelModel.findById(
+        id,
+      );
+
+      if (!boatModel) {
+        throw { message: 'דגם אינו קיים', status: HttpStatus.NOT_FOUND };
+      }
+      return boatModel;
+    } catch (e) {
+      console.log('findOne boat-models', e);
+      new HttpException(e?.message, e?.status);
+    }
   }
 
-  findOne(id: ObjectId) {
-    return `This action returns a #${id} model`;
+  async update(id: ObjectId, updateModelDto: UpdateBoatModelDto) {
+    try {
+      const boatModel: BoatModel | null = await this.boatModelModel.findById(
+        id,
+      );
+      if (!boatModel) {
+        throw { message: 'דגם אינו קיים', status: HttpStatus.NOT_FOUND };
+      }
+      await this.boatModelModel.updateOne(
+        { _id: boatModel._id },
+        {
+          ...updateModelDto,
+          updated_at: new Date(),
+      });
+      return { success: true };
+    } catch (e) {
+      console.log('update boat-models', e);
+      new HttpException(e?.message, e?.status);
+    }
   }
 
-  update(id: ObjectId, updateModelDto: UpdateBoatModelDto) {
-    return `This action updates a #${id} model`;
-  }
-
-  remove(id: ObjectId) {
-    return `This action removes a #${id} model`;
+  async remove(id: ObjectId) {
+    try {
+      const boatModel: BoatModel | null = await this.boatModelModel.findById(
+        id,
+      );
+      if (!boatModel) {
+        throw { message: 'דגם אינו קיים', status: HttpStatus.NOT_FOUND };
+      }
+      await this.boatModelModel.updateOne(boatModel?._id, {
+        deleted_at: new Date(),
+      });
+      return { success: true };
+    } catch (e) {
+      console.log('remove boat-model', e);
+      new HttpException(e?.message, e?.status);
+    }
   }
 }

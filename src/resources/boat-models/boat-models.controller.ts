@@ -12,7 +12,7 @@ import { CreateBoatModelDto } from './dto/create-boat-model.dto';
 import { UpdateBoatModelDto } from './dto/update-boat-model.dto';
 import { ObjectId } from 'mongoose';
 
-@Controller('models')
+@Controller('boat-models')
 export class BoatModelsController {
   constructor(private readonly boatModelsService: BoatModelsService) {}
 
