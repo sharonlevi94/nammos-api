@@ -1,8 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { QueueService } from './queue.service';
 import { CreateQueueDto } from './dto/create-queue.dto';
 import { UpdateQueueDto } from './dto/update-queue.dto';
-
+import { ObjectId } from 'mongoose';
 @Controller('queue')
 export class QueueController {
   constructor(private readonly queueService: QueueService) {}
@@ -28,7 +36,7 @@ export class QueueController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.queueService.remove(+id);
+  remove(@Param('id') id: ObjectId) {
+    return this.queueService.remove(id);
   }
 }
