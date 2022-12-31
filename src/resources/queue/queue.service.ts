@@ -73,7 +73,7 @@ export class QueueService {
           status: HttpStatus.NOT_ACCEPTABLE,
         };
       }
-      await this.queueModel.remove({ user_id: id });
+      await this.queueModel.deleteOne({ user_id: id });
       return { success: true };
     } catch (e) {
       console.log('QueueService findAll', e);
