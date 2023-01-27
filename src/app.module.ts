@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -8,6 +13,9 @@ import { UsersModule } from './resources/users/users.module';
 import { CalendarModule } from './resources/calendar/calendar.module';
 import { QueueModule } from './resources/queue/queue.module';
 import { BoatModelsModule } from './resources/boat-models/boat-models.module';
+import { NotificationGateway } from './helpers/notification.gateway';
+import { AuthMiddleware } from './middlewares/auth-middleware';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -18,8 +26,16 @@ import { BoatModelsModule } from './resources/boat-models/boat-models.module';
     CalendarModule,
     QueueModule,
     BoatModelsModule,
+    JwtModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, NotificationGateway],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({ path: 'auth/(.*)', method: RequestMethod.ALL })
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
