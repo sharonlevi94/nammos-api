@@ -13,7 +13,6 @@ import { UsersModule } from './resources/users/users.module';
 import { CalendarModule } from './resources/calendar/calendar.module';
 import { QueueModule } from './resources/queue/queue.module';
 import { BoatModelsModule } from './resources/boat-models/boat-models.module';
-import { NotificationGateway } from './helpers/notification.gateway';
 import { AuthMiddleware } from './middlewares/auth-middleware';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -29,7 +28,7 @@ import { JwtModule } from '@nestjs/jwt';
     JwtModule,
   ],
   controllers: [AppController],
-  providers: [AppService, NotificationGateway],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
