@@ -13,7 +13,6 @@ export class AuthMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.headers.authorization, 'req.headers.authorization');
       if (!req.headers.authorization) {
         return res
           .status(422)
