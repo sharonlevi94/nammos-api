@@ -18,6 +18,7 @@ export class AuthMiddleware implements NestMiddleware {
           .status(422)
           .send({ message: 'AUTHORIZATION HEADER IS NOT VALID' });
       }
+      console.log('middleware');
       const userJwt = await this.jwtService.verify(req.headers.authorization);
       if (!userJwt?.jti) {
         return res

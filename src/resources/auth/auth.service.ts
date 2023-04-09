@@ -20,6 +20,7 @@ export class AuthService {
   async login(createAuthDto: CreateAuthDto): Promise<any> {
     try {
       const { phone_number, password } = createAuthDto;
+      console.log('find user in db');
       const user: User | null = await this.userModel
         .findOne({ phone_number: phone_number })
         .exec();
@@ -29,6 +30,7 @@ export class AuthService {
       if (!user.active) {
         throw new HttpException('המשתמש אינו פעיל', HttpStatus.BAD_REQUEST);
       }
+      console.log('compare passwords');
       const passwordMatch: boolean = await bcrypt.compare(
         password,
         user.password,
@@ -36,21 +38,23 @@ export class AuthService {
       if (!passwordMatch) {
         throw new HttpException('סיסמה אינה נכונה', HttpStatus.BAD_REQUEST);
       }
+      console.log('jwt sign');
       const token: string = this.jwtService.sign({
         jti: user._id,
       });
 
-      const updateUserRes = await this.userModel.findByIdAndUpdate(user._id, {
+      console.log('update user last logged');
+      await this.userModel.updateOne({ _id: user._id }, {
         last_logged: new Date(),
       });
-      if (!updateUserRes) {
-        throw new HttpException(
-          'אירעה שגיאה בתהחברות',
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      // if (!updateUserRes) {
+      //   throw new HttpException(
+      //     'אירעה שגיאה בתהחברות',
+      //     HttpStatus.INTERNAL_SERVER_ERROR,
+      //   );
+      // }
 
-      return { token, user: updateUserRes };
+      return { token, user };
     } catch (e) {
       return new HttpException(e, HttpStatus.BAD_REQUEST);
     }
