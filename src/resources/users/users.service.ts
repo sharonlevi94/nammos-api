@@ -40,9 +40,11 @@ export class UsersService {
   async findAll(query: any): Promise<User[]> {
     try {
       const { filter } = query;
+      console.log(1);
       if (filter) {
         return this.userModel.find({ full_name: { $regex: filter } }).exec();
       }
+      console.log(2);
       return this.userModel
         .find({}, { full_name: true, active: true, admin: true })
         .exec();

@@ -46,6 +46,7 @@ export class AuthService {
       console.log('update user last logged');
       await this.userModel.updateOne({ _id: user._id }, {
         last_logged: new Date(),
+        updated_at: new Date(),
       });
       // if (!updateUserRes) {
       //   throw new HttpException(
